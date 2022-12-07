@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        
+        int profit = 0;
+        int minPrice = prices.front();
+
+        for (auto& item : prices)
+        {
+            minPrice = std::min(minPrice, item);
+            profit = std::max(profit, item - minPrice);
+        }
+        return profit;
+    }
+};

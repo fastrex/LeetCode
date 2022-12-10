@@ -1,0 +1,26 @@
+
+
+
+///////////////////
+//BAD SOLUTION/////
+///////////////////
+class Solution {
+public:
+    int subarrayBitwiseORs(vector<int>& arr) {
+        std::set<int> st;
+
+        for (int left = 0; left < arr.size(); left++)
+        {
+            int sum = arr[left];
+            st.insert(sum);
+            for (int right = left + 1; right < arr.size(); right++)
+            {
+                int prev = sum;
+                sum = sum | arr[right];
+                if  (sum != prev)
+                    st.insert(sum);
+            } 
+        }
+        return st.size();
+    }
+};

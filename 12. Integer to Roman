@@ -1,0 +1,61 @@
+class Solution {
+public:
+    string intToRoman(int num) {
+        std::string s;
+        int count = 1;
+        while (num)
+        {
+            int lst = num % 10;
+            if (lst)
+            {
+                switch (count)
+                {
+                case 1: s = calc(lst, 'I', 'V', 'X') + s; break;
+                case 2: s = calc(lst, 'X', 'L', 'C') + s; break;
+                case 3: s = calc(lst, 'C', 'D', 'M') + s; break;
+                case 4: s = thousand(lst) + s; break;
+                default: break;
+                }
+            }
+            num = num / 10;
+            ++count;
+        }
+        return s;
+    }
+    // 0-9
+    string calc(int val, const char& fs, const char& sc, const char& th)
+    {
+        if (val < 4)
+        {
+             return string(val, fs);
+        }
+        else if (val < 9)
+        {            
+            if (5 - val >= 0)
+            {
+               return string(5 - val, fs) + sc;
+            }
+            else
+            {
+                return sc + string(val - 5, fs);
+            }
+        }
+        else
+        {
+            if (10 - val >= 0)
+            {
+               return string(10 - val, fs) + th;
+            }
+            else
+            {
+                return sc + string(val - 10, th);
+            }
+        }
+    }
+   
+    // 0-9 // 1000-9999
+    string thousand(int val)
+    {
+        return string(val, 'M');
+    }
+};

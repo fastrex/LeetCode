@@ -1,0 +1,52 @@
+class Solution {
+public:
+    int romanToInt(string s) {
+        int sum = 0;
+        bool needSubs = false;
+        for (int i = (int)s.size() - 1; i >= 0; i--)
+        {
+            if  (i == s.size() - 1)
+            {
+                sum += sToInt(s[i]);
+                continue;
+            }
+            auto& prev = s[i + 1];
+            auto& cur = s[i];
+            if  ((((prev == 'V' || prev == 'X') && cur == 'I') || (needSubs == true && prev == 'I' && cur == 'I')) ||
+                (((prev == 'L' || prev == 'C') && cur == 'X') || (needSubs == true && prev == 'X' && cur == 'X')) ||
+                (((prev == 'D' || prev == 'M') && cur == 'C') || (needSubs == true && prev == 'C' && cur == 'C')))
+            {
+                needSubs = true;
+            }
+            else
+            {
+                needSubs = false;
+            }
+
+            if  (needSubs)
+            {
+                sum -= sToInt(s[i]);
+            }
+            else
+            {
+                sum += sToInt(s[i]);
+            }
+        }
+        return sum;
+    }
+
+    int sToInt(const char& c)
+    {
+        switch (c)
+        {
+            case 'I' : return 1;
+            case 'V' : return 5;
+            case 'X' : return 10;
+            case 'L' : return 50;
+            case 'C' : return 100;
+            case 'D' : return 500;
+            case 'M' : return 1000;
+            default : return 0;
+        }
+    }
+};

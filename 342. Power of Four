@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool isPowerOfFour(int n) {
+        if  (n == 1) return true;
+        bitset<sizeof(int)*8> bs(n);
+        if  (bs[0] || bs[1]) return false;        
+        int counter = 0;
+        for (int i = 2 ; i < bs.size() ; i++)
+        {
+            if  (i%2 == 0 && bs[i] == true)
+            {
+                counter++;
+            }
+
+            if  (i%2 == 1 && bs[i] == true || counter > 1)
+            {                 
+                return false;                
+            }            
+        }
+
+         return counter == 1;
+    }
+};

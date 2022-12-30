@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        size_t lo = 0, i = 0;
+        string retVal;
+        bool exit_ = false;
+        for (auto& s : strs)
+        {
+            lo = min((size_t)200, s.size());
+        }
+        while (i < lo)
+        {
+            for (auto& s : strs)
+            {
+                if (&s == &strs[0])
+                {
+                    retVal.push_back(s[i]);
+                }
+                else
+                {
+                    if (s[i] != retVal.back())
+                    {
+                        retVal.pop_back();
+                        return retVal;
+                    }
+                }        
+            }
+            ++i;
+        }
+        return retVal;
+    }
+};

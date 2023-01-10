@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int mySqrt(int x) {    
+    if (x <= 0) return 0;
+    double width = x, height = 1;
+
+    do
+    {
+        height = x / (height + (width - height) / 2);
+        width = x / height;
+         
+    }while (!(x >= (long)height * (long)height && x < ((long)height + 1) * ((long)height + 1)));
+        return height;
+    }
+};
+
+//class Solution {
+//public:
+//    int mySqrt(int x) {
+//        if  (x <= 0) return 0;
+//        long counter = 1;
+//        while (counter * counter <= x)
+//        {
+//            ++counter;
+//        }
+//        return --counter;
+//    }
+//};

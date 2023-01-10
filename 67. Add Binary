@@ -1,0 +1,56 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+                              bool haveNext = false;
+        string c;
+        c.reserve((a.size() > b.size() ? a.size() : b.size()) + 1);
+        c.resize(a.size() > b.size() ? a.size() : b.size(), '0');
+
+        auto aIt = a.rbegin();
+        auto bIt = b.rbegin();
+        auto cIt = c.rbegin();
+
+        while (aIt != a.rend() || bIt != b.rend())
+        {
+            if (haveNext)
+                *cIt = '1';
+            haveNext = false;
+            if (aIt != a.rend() && *aIt++ != '0')
+            {
+                if (*cIt == '1')
+                {
+                    *cIt = '0';
+                    haveNext = true;
+                }
+                else
+                {
+                    *cIt = '1';
+                }
+            }
+            if (bIt != b.rend() && *bIt++ != '0')
+            {
+                if (*cIt == '1')
+                {
+                    *cIt = '0';
+                    haveNext = true;
+                }
+                else
+                {
+                    *cIt = '1';
+                }
+            }
+            ++cIt;
+        }
+        
+        if (haveNext)
+        {
+            c.resize(c.size() + 1, '0');
+            for (int i = (int)c.size() - 1; i > 0; --i)
+            {
+                c[i] = c[i - 1];
+            }
+            c.front() = '1';
+        }
+        return c;
+    }
+};

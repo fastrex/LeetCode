@@ -1,0 +1,42 @@
+class Solution {
+    static int StrToInt(const string& str, const size_t length)
+    {
+        int retVal = 0;
+        for (int i = 0; i < length; ++i)
+        {
+            retVal |= (str[i] == '0' ? 0 : 1) << length - i - 1;
+        }
+        return retVal;
+    }
+
+    static string IntTiStr(const int val, const size_t length)
+    {
+        string retVal(length, 0);
+        for (int j = 0; j < length; ++j)
+        {
+            retVal[j] = val & (1 << length - j - 1) ? '1' : '0';
+        }
+        return retVal;
+    }
+
+public:
+    string findDifferentBinaryString(vector<string>& nums) {
+        std::set<int> mas;
+        size_t length = nums.size();
+        int tempVal = 0;
+        for (auto& str : nums)
+        {
+            mas.emplace(StrToInt(str, length));
+        }
+        size_t maxVal = pow(2, length) - 1;
+        for (int i = maxVal; i >= 0 ; --i)
+        {
+            auto it = mas.find(i);
+            if (it == mas.end())
+            {
+                return IntTiStr(i, length);
+            }
+        }
+        return string();
+    }
+};

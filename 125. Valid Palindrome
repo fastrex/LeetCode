@@ -1,0 +1,32 @@
+
+class Solution {
+
+
+public:
+    bool isPalindrome(std::string s) {
+        int lp = 0, rp = s.size() - 1;
+        while (lp < rp)
+        {
+            char lc = s[lp];
+            char rc = s[rp];
+            if (!((lc >= 'a' && lc <= 'z') || (lc >= 'A' && lc <= 'Z') || (lc >= '0' && lc <= '9')))
+            {
+                ++lp;
+                continue;
+            }
+            if (!((rc >= 'a' && rc <= 'z') || (rc >= 'A' && rc <= 'Z') || (rc >= '0' && rc <= '9')))
+            {
+                --rp;
+                continue;
+            }
+            if (std::tolower(lc) != std::tolower(rc))
+            {
+                return false;
+            }
+            ++lp;
+            --rp;
+        }
+        return true;
+
+    }
+};

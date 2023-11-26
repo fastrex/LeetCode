@@ -1,0 +1,29 @@
+class Solution {
+    int sourceColor;
+    int m;
+    int n;
+    vector<vector<bool>> used;
+
+void fill(vector<vector<int>>& image, int sr, int sc, int color)
+{
+    if (0 <= sr && sr < m && 0 <= sc && sc < n && !used[sr][sc] && image[sr][sc] == sourceColor)
+    {
+        used[sr][sc] = true;
+        image[sr][sc] = color;
+        fill(image, sr - 1, sc, color);
+        fill(image, sr + 1, sc, color);
+        fill(image, sr, sc - 1, color);
+        fill(image, sr, sc + 1, color);
+    }
+}
+
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        sourceColor = image[sr][sc];
+        m = image.size();
+        n = image.front().size();
+        used = vector<vector<bool>>(m, vector<bool>(n, false));
+        fill(image, sr, sc, color);
+        return image;
+    }
+};

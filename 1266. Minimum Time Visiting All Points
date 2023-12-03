@@ -1,0 +1,18 @@
+class Solution {
+    int calc(const vector<int>& p1, const vector<int>& p2)
+    {
+        int dx = std::abs(p2[0] - p1[0]);
+        int dy = std::abs(p2[1] - p1[1]);
+        return std::max(dx, dy);
+    }
+public:
+    int minTimeToVisitAllPoints(vector<vector<int>>& points) {
+        int time = 0;
+
+        for (int i = 1; i < points.size(); ++i)
+        {
+            time += calc(points[i - 1], points[i]);
+        }
+        return time;
+    }
+};

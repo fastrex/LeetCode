@@ -1,0 +1,11 @@
+class Solution {
+public:
+    int titleToNumber(string columnTitle) {
+        int retVal = 0;
+        for (int i = columnTitle.size() - 1; i >= 0; --i)
+        {
+           retVal += std::pow(26, columnTitle.size() - 1 - i) * (columnTitle[i] - 'A' + 1);
+        }
+        return retVal;
+    }
+};

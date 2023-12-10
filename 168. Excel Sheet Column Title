@@ -1,0 +1,12 @@
+class Solution {
+public:
+    std::string convertToTitle(int columnNumber) {
+        std::string retVal;
+        while (columnNumber > 0)
+        {
+            retVal = char('A' + (columnNumber - 1) % 26) + retVal;;
+            columnNumber = (columnNumber - 1) / 26;
+        }
+        return retVal;
+    }
+};

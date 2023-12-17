@@ -1,0 +1,69 @@
+class Solution {
+public:
+    int myAtoi(std::string s) {
+        std::vector<int> mas;
+        int sign = 0;   // -1 - minus // +1 - plus
+        bool dightStarted = false;
+        bool frontTrimmed = false;
+
+        for (int i = 0; i < s.size(); ++i)
+        {
+            auto& ch = s[i];
+            int value = ch - '0';
+            // всегда игнорируем пробелы
+            // если не начали читать число, то игнорируем ноль
+            if (!frontTrimmed && (ch == ' ' || ch == '_'))
+            {                
+                continue;
+            }
+            // если не начали читать число, то игнорируем ноль
+            if (!dightStarted && ch == '0')
+            {
+                frontTrimmed = true;
+                sign = sign ? sign : 1;
+                continue;
+            }
+            // если знак еще не считан, то читаем
+            if (!sign && !dightStarted && (ch == '+' || ch == '-'))
+            {
+                frontTrimmed = true;
+                sign = ch == '+' ? 1 : -1;
+                continue;
+            }
+            // если начинается с текста
+            if (!dightStarted && ch < '0' && ch > '9')
+            {
+                return 0;
+            }
+
+            if (value >= 0 && value <= 9)
+            {
+                if (!sign)
+                {
+                    sign = 1;
+                }
+                frontTrimmed = true;
+                dightStarted = true;
+                mas.push_back(value);
+                continue;
+            }
+            break;
+        }
+        if (mas.size() > 10)
+        {
+            return (sign < 0 ? INT_MIN : INT_MAX);
+        }
+        long long retVal = 0;
+        int length = mas.size();
+        for (int i = 0; i < length; ++i)
+        {
+            retVal += mas[i] * std::pow(10, length - 1 - i);
+        }
+        retVal *= sign ? sign : 1;
+        if (sign == -1 && retVal < INT_MIN)
+        {
+            return INT_MIN;
+        }
+        return retVal > INT_MAX ? INT_MAX : retVal;
+    }
+};

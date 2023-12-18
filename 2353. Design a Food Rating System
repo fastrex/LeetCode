@@ -1,0 +1,45 @@
+class FoodRatings {
+    // <food, <rating, cuisine>>
+    std::map<std::string, std::pair<int, std::string>> foodMap;
+    // <cuisine, <rating, food>>
+    std::map<std::string, std::map<int, std::set<std::string>>> cuisineMap;
+public:
+    FoodRatings(vector<string>& foods, vector<string>& cuisines, vector<int>& ratings) {
+        for (int i = 0; i < foods.size(); ++i)
+        {
+            auto& food = foods[i];
+            auto& cuisine = cuisines[i];
+            auto& rating = ratings[i];
+
+            cuisineMap[cuisine][rating].insert(food);
+            foodMap[food] = std::make_pair(rating, cuisine);
+        }
+    }
+    
+    void changeRating(string food, int newRating) {
+        auto& rating_cuisine = foodMap[food];
+        auto& cm = cuisineMap[rating_cuisine.second];
+        auto& food_set = cm[rating_cuisine.first];
+        if (food_set.size() > 1)
+        {
+            food_set.erase(food);                     
+        }
+        else
+        {
+            cm.erase(rating_cuisine.first);            
+        }
+        cm[newRating].insert(food);   
+        rating_cuisine.first = newRating;
+    }
+    
+    string highestRated(string cuisine) {
+        return *cuisineMap[cuisine].rbegin()->second.begin();
+    }
+};
+
+/**
+ * Your FoodRatings object will be instantiated and called as such:
+ * FoodRatings* obj = new FoodRatings(foods, cuisines, ratings);
+ * obj->changeRating(food,newRating);
+ * string param_2 = obj->highestRated(cuisine);
+ */

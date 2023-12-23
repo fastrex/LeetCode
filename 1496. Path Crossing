@@ -1,0 +1,37 @@
+class Solution {
+public:
+    bool isPathCrossing(string path) {
+       std::set<std::pair<int, int>> set;
+       std::pair<int, int> point = {0,0};
+       set.insert(point);
+       int x, y;
+       for (auto& item : path)
+       {
+           x = 0;
+           y = 0;
+           if (item == 'N')
+           {
+               ++y;
+           }
+           else if (item == 'S')
+           {
+                --y;
+           }
+           else if (item == 'E')
+           {
+               ++x;
+           }
+           else if (item == 'W')
+           {
+                --x;
+           }
+           point.first += x;
+           point.second += y;
+            if (!set.insert(point).second)
+            {
+                return true;
+            }
+       } 
+       return false;
+    }
+};

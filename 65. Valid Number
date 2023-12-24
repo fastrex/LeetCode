@@ -1,0 +1,99 @@
+class Solution {
+
+    bool isDight(const char& c)
+    {
+        return (c - '0') >= 0 && (c - '0') <= 9;
+    }
+
+public:
+    bool isNumber(std::string s) {
+        int i = 0;
+        // find sign mantissa
+        if (s[0] == '-' || s[0] == '+')
+        {
+            ++i;
+        }
+
+        // find mantissa
+        bool isHaveDot = false;
+        bool mantissaBeforeDot = false;
+        bool mantissaAfterDot = false;
+        while (i < s.size())
+        {
+            if (s[i] == 'e' || s[i] == 'E')
+            {
+                break;
+            }
+            if (isDight(s[i]))
+            {
+                if (isHaveDot)
+                {
+                    mantissaAfterDot = true;
+                }
+                else
+                {
+                    mantissaBeforeDot = true;
+                }
+            }
+            else if (s[i] == '.')
+            {
+                if (isHaveDot)
+                {
+                    return false;
+                }
+                else
+                {
+                    isHaveDot = true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+            ++i;
+        }
+
+        if (mantissaBeforeDot && mantissaAfterDot && !isHaveDot || !mantissaAfterDot && !mantissaBeforeDot)
+        {
+            return false;
+        }
+        if (i >= s.size())
+        {
+            return true;
+        }
+
+
+        if (i < s.size() && (s[i] != 'e' && s[i] != 'E'))
+        {
+            return false;
+        }
+        else
+        {            
+            ++i;
+            if (i >= s.size())
+            {
+                return false;
+            }
+        }
+
+        if (i < s.size() && (s[i] == '+' || s[i] == '-' ))
+        {
+            ++i;
+            if (i >= s.size())
+            {
+                return false;
+            }
+        }
+
+        while (i < s.size())
+        {
+            if (!isDight(s[i]))
+            {
+                return false;
+            }
+            ++i;
+
+        }
+        return true;
+    }
+};

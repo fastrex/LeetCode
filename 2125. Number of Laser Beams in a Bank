@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int numberOfBeams(vector<string>& bank) {
+        int retVal = 0;
+        int back_i = -1;
+        std::vector<int> mas;
+        mas.resize(bank.size(), 0);
+
+        for (int i = 0; i < bank.size(); ++i)
+        {
+            const std::string& str = bank[i];
+            int count = std::count(str.begin(), str.end(), '1');
+
+             if (count)
+             {
+                if (back_i != -1)                
+                {
+                   retVal += count * mas[back_i];                   
+                }
+                mas[i] = count;
+                back_i = i;
+             }
+        }
+        return retVal;
+    }
+};

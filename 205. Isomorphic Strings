@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        std::map<char, char> dictST, dictTS;
+        for (int i = 0; i < s.size(); ++i)
+        {
+            auto ss = s[i];
+            auto tt = t[i];
+            auto it_st = dictST.try_emplace(ss, tt);
+            if (!it_st.second && it_st.first->second != tt)
+            {
+                return false;
+            }
+            auto it_ts = dictTS.try_emplace(tt, ss);
+            if (!it_ts.second && it_ts.first->second != ss)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};

@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<string> sortPeople(vector<string>& names, vector<int>& heights) {
+        std::vector<std::string> retVal;
+        retVal.reserve(names.size());
+        std::map<int, std::string> heightMap;
+        for (int i = 0; i < names.size(); ++i)
+        {
+            heightMap.emplace(heights[i], names[i]);
+        }
+        for (auto it = heightMap.rbegin(); it != heightMap.rend(); ++it)
+        {
+            retVal.push_back(it->second);
+        }
+        return retVal;
+    }
+};

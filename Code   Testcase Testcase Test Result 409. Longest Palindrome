@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        std::vector<int> dict (64, 0);
+        for (int i = 0; i < s.size(); ++i)
+        {
+            ++dict[s[i] - 'A'];
+        }
+        
+        int retVal = 0;
+        bool isHaveOnce = false;
+        for (int i = 0; i < dict.size(); ++i)
+        {
+            if (dict[i] > 0 )
+            {                
+                retVal += (dict[i] / 2) * 2;
+                if (!isHaveOnce && dict[i] % 2)
+                {
+                    isHaveOnce = true;
+                    ++retVal;
+                }
+            }
+        }
+        return retVal;
+    }
+};

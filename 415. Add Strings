@@ -1,0 +1,44 @@
+class Solution {
+    static int charToDight(const char c)
+    {
+        return c - '0';
+    }
+
+    static std::pair<char, int> sum(const char c1, const char c2, const int isHaveDec)
+    {
+        std::pair<char, int> retVal('0', 0);
+        int res = charToDight(c1) + charToDight(c2) + isHaveDec;
+        if (res > 9)
+        {            
+            retVal.second = 1;
+            res -= 10;
+        }
+        retVal.first = '0' + res;
+        return retVal;
+    }
+
+
+public:
+    string addStrings(string num1, string num2) {
+        int size = std::max(num1.size(), num2.size());
+        std::string retVal(size + 1, '0');
+        int l1 = num1.size();
+        int l2 = num2.size();
+        int isHaveDec = 0;
+        for (int i = 0; i < size; ++i)
+        {            
+            std::pair<char, int> res = sum(i < l1 ? num1[l1 - i - 1] : '0', i < l2 ? num2[l2 - i - 1] : '0', isHaveDec);
+            isHaveDec = res.second;
+            retVal[size - i] = res.first;
+        }
+        if (isHaveDec)
+        {
+            retVal[0] = '1';
+        }
+        else
+        {
+            retVal.erase(retVal.begin());
+        }
+        return retVal;
+    }
+};

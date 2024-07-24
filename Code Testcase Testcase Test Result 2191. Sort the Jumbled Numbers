@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<int> sortJumbled(vector<int>& mapping, vector<int>& nums) {
+        std::multimap<int, int> orderMap;
+        int new_value;
+        int value;
+        int last_num;
+        int counter;
+        for (int i = 0; i < nums.size(); ++i)
+        {
+            counter = 0;
+            new_value = 0;
+            value = nums[i];
+            do
+            {
+               last_num = value % 10;
+               new_value += mapping[last_num] * std::pow(10, counter++);
+               value /= 10;
+            } while (value > 0);
+            orderMap.emplace(new_value, nums[i]);
+        }
+        vector<int> retVal;
+        retVal.reserve(nums.size());
+        for (auto& item : orderMap)
+        {
+            retVal.push_back(item.second);
+        }
+        return retVal;
+    }
+};

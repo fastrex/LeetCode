@@ -1,0 +1,49 @@
+class Solution {
+    std::vector<std::vector<long long>> dict;
+public:
+    long long minimumCost(std::string source, std::string target, const std::vector<char>& original, const std::vector<char>& changed, const std::vector<int>& cost) {
+        dict = std::vector<std::vector<long long>>(26, std::vector<long long>(26, std::numeric_limits<long long>::max() ));
+        for (int i = 0; i < original.size(); ++i)
+        {
+            auto& val = dict[original[i] - 'a'][changed[i] - 'a'];
+            if (cost[i] < val)
+            {
+                val = cost[i];
+            }
+        }
+        for (int i = 0; i < dict.size(); ++i)
+        {
+            dict[i][i] = 0;
+        }
+        for (int k = 0; k < dict.size(); ++k)
+        {
+            for (int j = 0; j < dict.size(); ++j)
+            {
+                for (int i = 0; i < dict.size(); ++i)
+                {
+                    if (dict[i][k] != std::numeric_limits<long long>::max()
+                        && dict[k][j] != std::numeric_limits<long long>::max()
+                        && dict[i][j] > dict[i][k] + dict[k][j])
+                    {
+                        dict[i][j] = dict[i][k] + dict[k][j];
+                    }
+                }
+            }
+        }
+        long long retVal = 0;
+        for (int i = 0; i < source.size(); ++i)
+        {
+            char& s = source[i];
+            char& t = target[i];
+
+            long long& val = dict[s - 'a'][t - 'a'];
+            if (val == std::numeric_limits<long long>::max())
+            {
+                return -1;
+            }
+            retVal += val;
+        }
+
+        return retVal;
+    }
+};

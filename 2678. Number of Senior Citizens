@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int countSeniors(vector<string>& details) {
+        int retVal = 0;
+        for (auto& string : details)
+        {
+            char& c = string[11] ;
+            char& c2 = string[12] ;
+            if (c - '6' == 0 && c2 - '0' > 0 || c - '6' > 0)
+            {
+                ++retVal;
+            }
+        }
+        return retVal;
+    }
+};

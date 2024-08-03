@@ -1,0 +1,19 @@
+class Solution {
+public:
+    bool canBeEqual(vector<int>& target, vector<int>& arr) {
+        vector<int> valuesTarget(1001, 0), valuesArr(1001, 0);
+        for (int i = 0; i < target.size(); ++i)
+        {
+            ++valuesTarget[target[i]];
+            ++valuesArr[arr[i]];
+        }
+        for (int i = 0; i < valuesTarget.size(); ++i)
+        {
+            if (valuesTarget[i] != valuesArr[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};

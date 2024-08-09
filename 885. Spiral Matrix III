@@ -1,0 +1,72 @@
+class Solution {
+    //enum Corner
+    //{
+    //    None = 0,
+    //    TL = 1,
+    //    BL = 1 << 1,
+    //    BR = 1 << 2,
+    //    BT = 1 << 3,
+    //    All = TL | BL | BR | BT
+    //}
+
+public:
+
+    std::vector<std::vector<int>> spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
+        int fullSize = rows * cols;
+        std::vector<std::vector<int>> retVal;
+        retVal.reserve(fullSize);
+
+        int direct = 0;
+        
+        int stepSize = 1;
+        int stepCount = 1;
+        retVal.push_back({ rStart , cStart });
+
+        while (retVal.size() != fullSize)
+        {
+            int d = direct % 4;
+            switch (d)
+            {
+            case 0 :
+            {
+                ++cStart;
+                break;
+            }
+            case 1 :
+            {
+                ++rStart;
+                break;
+            }
+            case 2 :
+            {
+                --cStart;
+                break;
+            }
+            case 3 :
+            {
+                --rStart;
+                break;
+            }
+            default:
+                break;
+            }
+
+
+            if (0 <= rStart && rStart < rows && 0 <= cStart && cStart < cols)
+            {
+                retVal.push_back({ rStart , cStart });
+            }
+            ++stepCount;
+            if (stepCount >= stepSize)
+            {
+                ++direct;
+                stepCount = 0;
+                if (direct % 2 == 0)
+                {
+                    ++stepSize;
+                }
+            }
+        }
+        return retVal;
+    }
+};

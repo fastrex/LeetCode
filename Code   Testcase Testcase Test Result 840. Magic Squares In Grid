@@ -1,0 +1,59 @@
+class Solution {
+
+    static int isMagic(int row, int col, vector<vector<int>>& grid)
+    {
+        std::vector dight(10, 0);
+        int sum = 0;
+        int sum2 = 0;
+        for (int i = 0; i < 3; ++i)
+        {
+            sum += grid[row + i][col + i];
+            sum2 += grid[row + 2 - i][col + 2 - i];
+        }
+        if (sum != sum2)
+        {
+            return 0;
+        }
+       
+        for (int i = 0; i < 3; ++i)
+        {            
+            int tempRow = 0;
+            int tempCol = 0;
+            for (int j = 0; j < 3; ++j)
+            {
+                int number = grid[row + i][col + j];
+                if (number < 1 || number > 9 || dight[number])
+                {
+                    return 0;
+                }
+                ++dight[number];
+                tempRow += grid[row + i][col + j];
+                tempCol += grid[row + j][col + i];
+            }
+            if (tempRow != tempCol || sum != tempRow)
+            {
+                return 0;
+            }
+        }
+        return 1;
+    }
+
+public:
+    int numMagicSquaresInside(vector<vector<int>>& grid) {
+        int retVal = 0;
+        int rowSize = grid.size();
+        if (rowSize < 3 || grid.front().size() < 3)
+        {
+            return 0;
+        }
+
+        for (int i = 0; i <= grid.size() - 3; ++i)
+        {
+            for (int j = 0; j <= grid[i].size() - 3; ++j)
+            {
+                retVal += isMagic(i, j , grid);
+            }
+        }
+        return retVal;
+    }
+};

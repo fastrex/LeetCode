@@ -1,0 +1,72 @@
+class Solution {
+public:
+    string fractionAddition(string expression) {
+        if (expression.empty())
+        {
+            return {};
+        }
+        std::vector<int> vec(11, 0);
+        std::string ch, zn;
+        bool isDen = false;
+        for (int i = 0; i < expression.size(); ++i)
+        {
+            auto& c = expression[i];
+            if (c == '-' || c == '+')
+            {
+                if (!zn.empty())
+                    vec[std::stoi(zn)] += std::stoi(ch); // знам пред
+                ch = { c };
+                zn.clear();
+                isDen = false;
+            }
+            else if (0 <= c - '0' && c - '0' <= 9)
+            {
+                if (isDen)
+                {
+                    zn.push_back(c);
+                }
+                else
+                {
+                    ch.push_back(c);
+                }
+            }
+            else if (c == '/')
+            {
+                isDen = true;
+            }
+        }
+
+        if (!zn.empty())
+            vec[std::stoi(zn)] += std::stoi(ch);
+
+
+        int del = 1;
+        for (int i = 1; i < vec.size(); ++i)
+        {
+            if (vec[i] != 0)
+            {
+                del *= i;
+            }
+        }
+        int allCh = 0;
+        for (int i = 1; i < vec.size(); ++i)
+        {
+            if (vec[i] != 0)
+            {
+                allCh += vec[i] * del / i;
+            }
+        }
+        int i = 10;
+        while (i > 1)
+        {
+            if (allCh % i == 0 && del % i == 0)
+            {
+                allCh /= i;
+                del /= i;
+                continue;
+            }
+            --i;
+        }
+        return std::to_string(allCh) + "/" + std::to_string(del);
+    }
+};

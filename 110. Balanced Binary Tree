@@ -10,66 +10,28 @@
  * };
  */
 class Solution {
-std::stack<TreeNode*> s;
-std::unordered_map<TreeNode*, int> mp;
-
-public:
-    bool isBalanced(TreeNode* root) {
-        TreeNode* node = root;
-
-        while(true)
+    bool res = true;
+    int test(TreeNode* root, int depth)
+    {
+        if (!root)
         {
-            while(node)
-            {
-                s.push(node);
-                node = node->left;
-            }
-
-            if (s.empty())
-                return true;
-
-            node = s.top();
-
-            if (node->right && mp.emplace(node, 0).second)
-            {
-                node = node->right;
-            }
-            else
-            {
-                auto l = mp[node->left];
-                auto r = mp[node->right];
-                if  (std::abs(l - r) > 1)
-                {
-                    return false;
-                }
-                mp[node] = std::max(l,r) + 1;
-                s.pop();
-                node = nullptr;
-            }
+            return depth;
         }
-        return true;
+        ++depth;
 
+        int l = test(root->left, depth);        
+        int r = test(root->right, depth);
+        if (std::abs(l - r) > 1)
+        {
+            res = false;            
+        }
+        return std::max(l, r);
     }
-};
-
-
-///////////////////////////////////////////////////
-class Solution {
 public:
     bool isBalanced(TreeNode* root) {
         if (!root) return true;
-        auto lh = calcHeight(root->left);
-        auto rh = calcHeight(root->right);
-        if  (std::abs(rh - lh) > 1)
-            return false;
-
-        return isBalanced(root->left) && isBalanced(root->right);
-    }
-
-    int calcHeight (TreeNode* node)
-    {
-        if  (!node)
-            return 0;
-        return std::max(calcHeight(node->left), calcHeight(node->right)) + 1;
+        int depth = 0;        
+        test(root, depth);
+        return res;        
     }
 };

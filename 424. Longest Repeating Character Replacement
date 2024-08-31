@@ -25,3 +25,32 @@ public:
 
     }
 };
+
+
+//added  31.08.2024
+
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        std::unordered_map<char, int> mp;
+        int l = 0;
+        int r = 0;
+        int mf = 0;
+        int letter = 0;
+
+        while (r < s.size())
+        {
+            ++mp[s[r]];
+            letter = std::max(letter, mp[s[r]]);
+
+            while (r - l + 1 - letter > k)
+            {
+                --mp[s[l]];
+                ++l;
+            }
+            mf = std::max(mf, r - l + 1);
+            ++r;
+        }
+        return mf;
+    }
+};

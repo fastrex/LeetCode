@@ -73,3 +73,28 @@ public:
         return que1.empty() && que2.empty() ? true : false;
     }
 };
+
+
+
+// added 30.08.2024
+
+class Solution {
+
+    bool test(TreeNode* p, TreeNode* q)
+    {
+        if ((bool)p ^ (bool)q || p && q && p->val != q->val)
+        {
+            return false;
+        }
+        if (!p && !q)
+        {
+            return true;
+        }
+        return test(p->left, q->left) && test(p->right, q->right);
+    }
+
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        return test(p, q);
+    }
+};

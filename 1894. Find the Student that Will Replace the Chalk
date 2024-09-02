@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int chalkReplacer(vector<int>& chalk, int k) {
+        unsigned long long sum = 0;
+        for (auto& item : chalk)
+        {
+            sum += item;
+        }        
+        long long ndel = k % sum;
+        for (int i = 0; i < chalk.size(); ++i)
+        {
+            ndel -= chalk[i];
+            if (ndel < 0)
+            {
+                return i;
+            }
+        }
+        return 0;
+    }
+};

@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int reverse(int x) {
+        int len = 0;
+        int res = 0;
+        int t = x;
+        while (std::abs(t) > 0)
+        {
+            t /= 10;
+            ++len;
+        }
+        t = x;        
+        int lim = x < 0 ? std::numeric_limits<int>::min() : std::numeric_limits<int>::max();
+        bool next = len == 10;
+        for (int i = 0; i < len; ++i)
+        {
+            int p = std::pow(10, len - i - 1);
+            int t1 = (t % 10);
+            int t2 = lim / p;
+            if (next && std::abs(t1) > abs(t2))
+            {
+                return 0;
+            }
+            if (next && abs(t1) < abs(t2))
+            {
+                next = false;
+            }
+            t1 *= p;
+            t /= 10;
+            lim = lim % p;
+            res += t1;
+        }
+                
+        return res ;
+
+    }
+};

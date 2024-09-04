@@ -1,0 +1,98 @@
+class Solution {
+public:
+	int robotSim(vector<int>& commands, vector<vector<int>>& obstacles) {
+		//std::unordered_set<std::pair<int, int>> mp;
+		int res = 0;
+		std::map<int, std::set<int>> xmap, ymap;
+
+		for (auto& item : obstacles)
+		{
+			xmap[item[0]].emplace(item[1]);
+			ymap[item[1]].emplace(item[0]);
+		}
+
+		int dir = 0; // 0 - вверх, далее по часовой стрелке
+		int posx = 0;
+		int posy = 0;
+		for (int i = 0; i < commands.size(); ++i)
+		{
+			const int& cmd = commands[i];
+			if (cmd < 0)
+			{
+				dir = (4 + dir + (cmd == -2 ? -1 : 1)) % 4;
+				continue;
+			}
+
+			if (dir == 0 || dir == 2)
+			{
+				auto itx = xmap.find(posx);
+				if (itx != xmap.end())
+				{
+					if (dir == 0)
+					{
+						auto ity1 = itx->second.upper_bound(posy);
+						if (ity1 != itx->second.end())
+						{
+							if (posy + cmd >= *ity1 && *ity1 > posy)
+							{
+								posy = *ity1 - 1;
+								res = std::max(res, posx * posx + posy * posy);
+								continue;
+							}
+						}
+					}
+					else
+					{
+						auto ity1 = itx->second.lower_bound(posy - cmd);
+						if (ity1 != itx->second.end())
+						{
+							if (posy - cmd <= *ity1 && *ity1 < posy)
+							{
+								posy = *ity1 + 1;
+								res = std::max(res, posx * posx + posy * posy);
+								continue;
+							}
+						}
+					}
+				}
+				posy = posy + (dir == 0 ? cmd : -cmd);
+			}
+			else
+			{
+				auto ity = ymap.find(posy);
+				if (ity != ymap.end())
+				{
+					if (dir == 1)
+					{
+						auto itx1 = ity->second.upper_bound(posx);
+						if (itx1 != ity->second.end())
+						{
+							if (posx + cmd >= *itx1 && *itx1 > posx)
+							{
+								posx = *itx1 - 1;
+								res = std::max(res, posx * posx + posy * posy);
+								continue;
+							}
+						}
+					}
+					else
+					{
+						auto itx1 = ity->second.lower_bound(posx - cmd);
+						if (itx1 != ity->second.end())
+						{
+							if (posx - cmd <= *itx1 && *itx1 < posx)
+							{
+								posx = *itx1 + 1;
+								res = std::max(res, posx * posx + posy * posy);
+								continue;
+							}
+						}
+					}
+				}
+				posx = posx + (dir == 1 ? cmd : -cmd);
+			}
+			res = std::max(res, posx * posx + posy * posy);
+		}
+		return res;
+	}
+};

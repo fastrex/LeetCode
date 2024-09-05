@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<int> missingRolls(vector<int>& rolls, int mean, int n) {
+        int size = rolls.size();
+        int sum = 0;
+        for (auto& item : rolls)
+        {
+            sum += item;
+        }
+
+       int min_avg = (sum + n) / (size + n);
+       int is_min = (sum + n) % (size + n);
+       int max_avg = (sum + n * 6) / (size + n);       
+       if (min_avg > mean || min_avg == mean && is_min > 0 || max_avg < mean )
+       {
+            return {};
+       }
+
+       int val = (mean * (size + n) - sum) / n;
+       std::vector res (n, val);
+       int ost = (mean * (size + n) - sum) % n;
+       int counter = 0;
+       while (ost > 0)
+       {
+            ++res[counter++];
+            --ost;
+       }
+       
+       return res;
+    }
+};

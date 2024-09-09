@@ -1,0 +1,34 @@
+class Solution {
+
+    struct S
+    {
+        bool operator()(const std::pair<int, std::string>& p1, const std::pair<int, std::string>& p2) const
+        {
+            return p1.first > p2.first ||  p1.first == p2.first && p1.second < p2.second;
+        }
+    };
+
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        std::unordered_map<std::string, int> mp;
+        for (auto& item : words)
+        {
+            ++mp[item];
+        }
+
+        std::multimap<std::pair<int, std::string>, std::string, S> mp2;
+        for (auto& item : mp)
+        {
+            mp2.emplace(std::make_pair(item.second, item.first), item.first);
+        }
+        auto it = mp2.begin();
+        vector<string> res (k);
+        for (int i = 0; i < k; ++i)
+        {            
+            res[i] = it->second;           
+            ++it;
+        }
+        return res;
+
+    }
+};

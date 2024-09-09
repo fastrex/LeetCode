@@ -1,0 +1,64 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+    int n, m;
+    vector<vector<int>> res;
+    ListNode* func(int& r, int& c, ListNode* head, int direct)
+    {
+        int ost = direct % 4;
+        int cel = direct / 4;
+        int cmax = n - 1 - cel * 2;
+        int rmax = m - 1 - cel * 2;        
+        int counter = 0;
+
+        while (counter < (ost % 2 == 0 ? cmax : rmax))
+        {           
+            if (head)
+            {
+                res[r][c] = head->val;
+                head = head->next;
+            }
+            switch(ost)
+            {
+                case 0 : ++c; break;
+                case 1 : ++r; break;
+                case 2 : --c; break;                
+                default : --r; break;               
+            }
+            ++counter;
+        }
+        if (ost == 3)
+        {
+            ++r; ++c;
+        }
+        return head;
+    }
+public:
+    vector<vector<int>> spiralMatrix(int m, int n, ListNode* head) {
+        res = vector<vector<int>>(m, vector<int>(n, -1));
+        this->n = n;
+        this->m = m;        
+        int direct = 0; // 0 - r // 1 - down // 2 - left // 3 - up
+        int r = 0;
+        int c = 0;
+        while (head)
+        {
+             if (head && !head->next)
+            {
+                res[r][c] = head->val;
+                return res;
+            }
+            head = func(r, c, head, direct);
+            ++direct;
+        }
+        return res;
+    }
+};

@@ -25,3 +25,31 @@ public:
         return bestArea;
     }
 };
+
+
+//09.09.2024
+
+
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int max = 0;
+        int lo = 0;
+        int hi = height.size() - 1;
+
+        while (lo < hi)
+        {
+            bool left = height[lo] < height[hi];
+            max = std::max(max, height[left ? lo : hi] * (hi - lo));
+            if (left)
+            {
+                ++lo;
+            }
+            else
+            {
+                --hi;
+            }
+        }
+        return max;
+    }
+};

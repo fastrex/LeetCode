@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        std::unordered_map<int, int> mp;
+        for(auto& item : nums)
+        {
+            ++mp[item];
+        }
+        std::multimap<int, int> mp2;
+        for (auto& item : mp)
+        {
+           mp2.emplace(item.second, item.first);
+        }
+        auto it = mp2.rbegin();
+        vector<int> res(k);
+        for (auto& item : res)
+        {
+           item = it->second;
+           ++it;
+        }
+        return res;
+    }
+};

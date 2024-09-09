@@ -23,3 +23,30 @@ public:
         return retVal;
     }
 };
+//09.09.2024
+
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        std::sort(intervals.begin(), intervals.end(), [](auto& v1, auto& v2)
+        {
+            return v1[0] < v2[0] || v1[0] == v2[0] && v1[1] < v2[1];
+        });
+
+        vector<vector<int>> res(1, intervals[0]);
+
+        for (int i = 1; i < intervals.size(); ++i)
+        {
+            auto& item = intervals[i];
+            if (res.back()[1] >= item[0])
+            {
+                res.back()[1] = std::max(res.back()[1], item[1]);
+            }
+            else
+            {
+                res.push_back(item);
+            }
+        }
+        return res;
+    }
+};

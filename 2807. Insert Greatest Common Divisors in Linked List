@@ -22,12 +22,10 @@ int gcd_(int a, int b)
 
 public:
     ListNode* insertGreatestCommonDivisors(ListNode* head) {
-         ListNode* ret = head;
-        ListNode* temp = nullptr;
+        ListNode* ret = head;        
         while (head->next)
-        {
-            temp = new ListNode(gcd_(head->val, head->next->val), head->next);
-            head->next = temp;
+        {            
+            head->next = new ListNode(gcd_(head->val, head->next->val), head->next);
             head = head->next->next;
         }
         return ret;

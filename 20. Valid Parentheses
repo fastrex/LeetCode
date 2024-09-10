@@ -25,3 +25,63 @@ public:
         return stack.empty() ? true : false;
     }
 };
+
+//10.09.2024
+
+// менее красивое решение
+
+class Solution {
+    std::stack<char> st;
+    bool check (char c1)
+    {
+        auto& val = st.top();
+        if (val == c1)
+        {
+            st.pop();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+public:
+    bool isValid(string s) {
+        
+        for (auto& item : s)
+        {
+            if (item == '(' || item == '[' || item == '{')
+            {
+                st.push(item);
+                continue;
+            }
+            if (st.empty())
+            {
+                return false;
+            }            
+            if (item == ')')
+            {
+                if (!check('('))                
+                {
+                    return false;
+                }
+            }
+            else if (item == ']')
+            {
+                if (!check('['))                
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (!check('{'))                
+                {
+                    return false;
+                }
+            }            
+        }
+        return st.empty() ? true : false;
+    }
+};

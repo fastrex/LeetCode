@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<int> xorQueries(vector<int>& arr, vector<vector<int>>& queries) {
+        vector<int> res;
+        res.reserve(queries.size());
+        for (auto & item : queries)
+        {
+            int sum = arr[item[0]];
+            if (item[0] != item[1])
+            {           
+                for (int i = item[0] + 1; i <= item[1]; ++i)
+                {                
+                    sum ^= arr[i];                
+                }
+            }
+            res.push_back(sum);
+        }
+        return res;
+    }
+};
+
+// вернуться и разобраться с префиксом, для уменьшения сложности big O

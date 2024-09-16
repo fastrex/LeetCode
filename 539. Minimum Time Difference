@@ -1,0 +1,25 @@
+class Solution {
+    int to_int(const char& c1, const char& c2, int multiply)
+    {
+        return (10 * (c1 - '0') + c2 - '0') * multiply;
+    }
+public:
+    int findMinDifference(vector<string>& timePoints) {
+        vector<int> vec;
+        vec.reserve(timePoints.size());
+        for (auto& item : timePoints)
+        {
+            vec.push_back(to_int(item[0], item[1], 60) +  to_int(item[3], item[4], 1));
+        }
+        std::sort(vec.begin(), vec.end());
+        int maxx = std::min(99999, std::abs(vec[vec.size() - 1] - vec[0]));
+        maxx = std::min(maxx, std::min(vec[vec.size() - 1], vec[0]) + 24*60 - std::max(vec[vec.size() - 1],vec[0]));
+
+        for (int i = 1; i < vec.size(); ++i)
+        {
+            maxx = std::min(maxx, std::abs(vec[i - 1] - vec[i]));
+            maxx = std::min(maxx, std::min(vec[i - 1], vec[i]) + 24*60 - std::max(vec[i - 1],vec[i]));
+        }
+        return maxx;
+    }
+};

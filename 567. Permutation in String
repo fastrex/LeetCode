@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        std::vector<int> dict(26, 0);
+        std::vector<int> temp(26, 0);
+        for (auto& item : s1)
+        {
+            ++dict[item - 'a'];
+        }
+        for (int i = 0; i < s2.size(); ++i)
+        {
+            ++temp[s2[i] - 'a'];
+            if (i - (int)s1.size() >= 0)
+            {
+                --temp[s2[i - (int)s1.size()] - 'a'];                
+            }     
+            if (temp == dict)
+            {
+                return true;
+            }       
+        }
+        return false;
+    }
+};

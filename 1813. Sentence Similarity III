@@ -1,0 +1,38 @@
+class Solution {
+public:
+    bool areSentencesSimilar(string sentence1, string sentence2) {
+        std::stringstream ss1(sentence1);
+        std::stringstream ss2(sentence2);
+        std::vector<std::string> l1, l2;
+        while (!ss1.eof())
+        {
+            l1.emplace_back();
+            ss1 >> l1.back();
+        }
+        while (!ss2.eof())
+        {
+            l2.emplace_back();
+            ss2 >> l2.back();
+        }
+        int lo1 = 0, lo2 = 0;
+        int hi1 = l1.size() - 1, hi2 = l2.size() - 1;
+        while (lo1 <= hi1 && lo2 <= hi2)
+        {
+            if (l1[lo1] == l2[lo2])
+            {
+                ++lo1;
+                ++lo2;
+            }
+            else if (l1[hi1] == l2[hi2])
+            {
+                --hi1;
+                --hi2;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};

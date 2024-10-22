@@ -1,0 +1,56 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    long long kthLargestLevelSum(TreeNode* root, int k) {
+        std::vector<TreeNode*> vec(1, root);
+        int counter = 1;
+        unsigned long long tempSum;     
+        std::multiset<unsigned long long, std::greater<unsigned long long>> st; 
+        while (!vec.empty())
+        {
+            tempSum = 0;
+            std::vector<TreeNode*> tempVec;
+            while (!vec.empty())
+            {
+                auto& back = vec.back();                
+                tempSum += back->val;                
+                if (back->left)
+                {
+                    tempVec.push_back(back->left);
+                }
+                if (back->right)
+                {
+                    tempVec.push_back(back->right);
+                }
+                vec.pop_back();
+            }
+            st.insert(tempSum);            
+            vec = std::move(tempVec);
+            ++counter;
+        } 
+        --counter;
+        unsigned long long sum = -1;
+        counter = 1;
+        auto it = st.begin();
+        while (counter <= k && it != st.end())
+        {
+            if (counter == k)
+            {
+                sum = *it;
+            }
+            ++it;
+            ++counter;
+        }        
+        return sum;
+    }
+};

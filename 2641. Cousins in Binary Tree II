@@ -1,0 +1,59 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* replaceValueInTree(TreeNode* root) {
+        std::vector<TreeNode*> vec(1, root);
+        std::vector<TreeNode*> tempVec;
+
+
+        while (!vec.empty())
+        {
+            unsigned sum = 0, curSum = 0;
+            tempVec.clear();
+            for (int i = 0; i < vec.size(); ++i)
+            {
+                if (vec[i]->left)
+                {                    
+                    sum += vec[i]->left->val;
+                    tempVec.push_back(vec[i]->left);
+                }
+                if (vec[i]->right)
+                {
+                    sum += vec[i]->right->val;
+                    tempVec.push_back(vec[i]->right);
+                }
+            }
+
+            for (int i = 0; i < vec.size(); ++i)
+            {
+                curSum = sum;
+                if (vec[i]->left)
+                {                    
+                    curSum -= vec[i]->left->val;                    
+                }
+                if (vec[i]->right)
+                {
+                    curSum -= vec[i]->right->val;  
+                    vec[i]->right->val = curSum;                 
+                }
+                if (vec[i]->left)
+                {                    
+                    vec[i]->left->val = curSum;                    
+                }
+            }
+            vec = std::move(tempVec);
+        }
+        root->val = 0;
+        return root;
+    }
+};

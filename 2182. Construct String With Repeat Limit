@@ -1,0 +1,46 @@
+class Solution {
+public:
+    string repeatLimitedString(string s, int repeatLimit) {
+        string retVal;
+        std::vector<int> vec(26, 0) ;
+        for (auto& c : s)
+        {
+            ++vec[c - 'a'];
+        }
+        int lim = 0;
+        while (retVal.size() < s.size())
+        {
+            for (int i = 25; i >=0; --i)
+            {
+                if (vec[i] > 0)
+                {
+                    if (retVal.empty() || (('a' + i) == retVal.back() && lim < repeatLimit))
+                    {
+                        if (!retVal.empty() && ('a' + i) == retVal.back() && lim == 0)
+                        {
+                            return retVal;
+                        }
+
+                        retVal.push_back(('a' + i));
+                        --vec[i];
+                        ++lim;
+                        break;
+                    }
+                    else if(('a' + i) != retVal.back())
+                    {
+                        retVal.push_back(('a' + i));
+                        --vec[i];
+                        lim = 1;
+                        break;
+                    }
+                    else
+                    {
+                        lim = 0;
+                        continue;
+                    }
+                }
+            }
+        }
+        return retVal;
+    }
+};

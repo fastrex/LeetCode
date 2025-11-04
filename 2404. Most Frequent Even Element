@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int mostFrequentEven(vector<int>& nums) {
+        std::unordered_map<int, int> mapp;
+        for (auto& item : nums)
+        {
+            if (item % 2 == 0)
+                ++mapp[item];
+        }
+        int max_value = -1;
+        int max_count = 0;
+        for (auto& item : mapp)
+        {
+            if (item.second > max_count || item.second == max_count && item.first < max_value)
+            {
+                max_value = item.first;
+                max_count = item.second;
+            }            
+        }
+        return max_value;
+    }
+};

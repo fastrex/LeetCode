@@ -1,0 +1,64 @@
+// 1 dynamic programming
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        std::vector<std::vector<bool>> dp (s.size(), std::vector<bool>(s.size(), false));
+        int i, j, k, size = s.size();
+        int i1 = 0, i2 = 1;
+        for (i = 0; i < size; ++i)
+        {
+            dp[i][i] = true;
+        }
+        for (j = 2; j <= size; ++j)
+        {            
+            for(i = 0, k = j - 1; i < size && k < size; ++i, k = i + j - 1)
+            {                
+                dp[i][k] = s[i] == s[k];
+                
+                if (i < size - 1 && j > 2)
+                {
+                    dp[i][k] = dp[i][k] && dp[i+1][k-1];
+                }                
+                if (dp[i][k] && k - i + 1 > i2 - i1)
+                {                    
+                    i1 = i;
+                    i2 = k + 1;
+                }
+            }
+        }
+        return std::string (s.begin() + i1, s.begin() + i2);
+    }
+};
+
+// 2
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int leftStep, rightStep;
+        int i1 = 0, i2 = 1;
+        for (int i = 1; i < s.size(); ++i)
+        {
+            leftStep = i - 1;
+            rightStep = i + 1;
+            while (0 <= leftStep && s[leftStep] == s[i])
+            {
+                --leftStep;
+            } 
+            while (rightStep < s.size() && s[rightStep] == s[i])
+            {
+                ++rightStep;
+            }
+            ++leftStep;
+            --rightStep;
+            for (;0 <= leftStep && rightStep < s.size() && s[leftStep] == s[rightStep]; --leftStep, ++rightStep)
+            {
+                if (rightStep + 1 - leftStep > i2 - i1)
+                {
+                    i2 = rightStep + 1;
+                    i1 = leftStep;
+                }
+            }
+        }
+        return std::string(s.begin() + i1, s.begin() + i2);
+    }
+};

@@ -1,0 +1,11 @@
+class Solution {
+public:
+    int findFinalValue(vector<int>& nums, int original) {
+        std::unordered_set<int> sett(nums.begin(), nums.end());        
+        while (true) {
+            if (sett.find(original) == sett.end())  break;
+            original *= 2;
+        }
+        return original;
+    }
+};
